@@ -1,13 +1,9 @@
 #! /bin/bash
-# test arrays in ba
-
-# check for arguments
-
+# Wrapper for the wc tool in java
 
 valid_options=("-c" "-l" "-m" "-w")
 
 command_line_option=$1 #option to set on what java command to run
-
 
 argument_correct=false
 cli_options=true
@@ -46,15 +42,14 @@ if ! [ -e "$path_to_file" ]; then
     exit 1
 fi
 
-echo "darn it"
 # Run the java code with this things
 
 java=/home/alterego/Documents/jdk-22.0.2/bin/java
 
-path_to_source_file=/home/alterego/IdeaProjects/Filess/src/Main.java
+path_to_source_code=/home/alterego/IdeaProjects/Filess/src/Main.java
 
 if [ $cli_options = true ]; then
-    $java $path_to_source_file "$command_line_option" "$path_to_file"
+    $java $path_to_source_code "$command_line_option" "$path_to_file"
 else
-    $java $path_to_source_file "--no-option" $path_to_file
+    $java $path_to_source_code "--no-option" "$path_to_file"
 fi
