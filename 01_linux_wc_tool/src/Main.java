@@ -1,13 +1,30 @@
 import wc_tool.WcTool;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Arrays;
 
 public class Main {
     public static void main(String[] args) throws IOException {
         String filePath = args[1];
         File file = new File(filePath);
+
         switch (args[0]) {
+            case "--direct-input" -> {
+                BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+                String currentLine = reader.readLine();
+
+                long wordCount = 0;
+                while(currentLine != null) {
+                    String[] words = currentLine.split(" ");
+                    wordCount += words.length;
+
+                    currentLine= reader.readLine();
+                }
+               System.out.println("Word count: " + wordCount);
+            }
             case "--no-option" -> {
                 long lineCount = WcTool.getNumberOfLines(filePath);
                 long characterCount = WcTool.getCharacterCount(filePath);

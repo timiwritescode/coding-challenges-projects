@@ -3,10 +3,27 @@
 
 valid_options=("-c" "-l" "-m" "-w")
 
+
 command_line_option=$1 #option to set on what java command to run
 
 argument_correct=false
 cli_options=true
+
+read_stdin_without_arguments() {
+#  if [ -p /dev/stdin ]; then
+    input=$(cat)
+      echo "$input" | java "$CCWC" "--direct-input" "df"
+#  fi
+
+}
+
+read_stdin_with_arguments() {
+
+    input=$(cat)
+    echo "$input" | java "$CCWC" "--direct-input" "$1"
+
+}
+
 if [[ "${command_line_option:0:1}" == "-" ]]; then
 
     for option in "${valid_options[@]}"; do
@@ -20,11 +37,22 @@ if [[ "${command_line_option:0:1}" == "-" ]]; then
     if [[ $argument_correct = false ]]; then
         echo "Error: Invalid argument '$command_line_option'. Valid options are: ${valid_options[*]}"
         exit 1
-    elif [[ $2 = "" || $2 = " " ]]; then
+    elif [[ $2 = "" || $2 = " "  ]] && ! [ -p /dev/stdin ]; then
         echo "Error: No file provided"
         exit 1
+    else
+       #    check for pipes
+          if [ -p /dev/stdin ] && ! [ "$2" ]; then
+            read_stdin_with_arguments "$1"
+            exit 1
+          fi
+
     fi
 else
+  if [ -p /dev/stdin ]; then
+    read_stdin_without_arguments
+    exit 1
+  fi
     cli_options=false
 fi
 
@@ -37,19 +65,22 @@ else
 fi
 
 # check file exists
-if ! [ -e "$path_to_file" ]; then
+
+if  [ "$1" != "-d" ] && ! [ -e "$path_to_file" ]; then
     echo "Error: No such file '$path_to_file'"
     exit 1
 fi
 
 # Run the java code with this things
 
-java=/home/alterego/Documents/jdk-22.0.2/bin/java
-
-path_to_source_code=/home/alterego/IdeaProjects/Filess/src/Main.java
-
 if [ $cli_options = true ]; then
-    $java $path_to_source_code "$command_line_option" "$path_to_file"
+  if ! [ $2 ]; then
+    read_input
+
+  else
+    java "$CCWC" "$command_line_option" "$path_to_file"
+  fi
+
 else
-    $java $path_to_source_code "--no-option" "$path_to_file"
+    java "$CCWC" "--no-option" "$path_to_file"
 fi

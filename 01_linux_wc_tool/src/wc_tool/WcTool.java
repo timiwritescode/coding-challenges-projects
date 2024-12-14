@@ -1,6 +1,7 @@
 package wc_tool;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
@@ -68,4 +69,12 @@ public class WcTool {
         return charCount;
     }
 
+
+    public static long getDirectInputCharacterCount(String directInput) {
+//        Charset charset = StandardCharsets.UTF_8;
+//        ByteBuffer byteBuffer = charset.encode(directInput);
+//
+        final byte[] utfBytes = directInput.getBytes(StandardCharsets.UTF_8);
+        return  utfBytes.length;
+    }
 }
