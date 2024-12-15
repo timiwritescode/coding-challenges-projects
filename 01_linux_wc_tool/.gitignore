@@ -30,3 +30,6 @@ bin/
 
 /.idea
 /linux-wc-tool.iml
+
+# custom
+/doc.txt

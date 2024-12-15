@@ -1,7 +1,8 @@
-# WC TOOL
+# CODING CHALLENGE 01 
+## Build Linux wc COMMAND LINE TOOL 
 
 ## Intializations
-## Clone repo
+### Clone repo
 Git clone using
 ```
 git clone repo
@@ -13,7 +14,10 @@ $ chmod +x wc_tool.sh
 ```
 to make the script executable.
 ### Add JRE to PATH
-Add the JRE to ```$PATH``` in ```~/.bahsrc```
+If you didn't set the path to the JRE upon java installation, add the JRE to ```$PATH``` in ```~/.bahsrc``` like so:
+```declarative
+export PATH=/path-to-your-JRE:$PATH
+```
 
 _**NB: You must have java installed on your linux**_
 
@@ -27,7 +31,7 @@ The nano editor opens and at the end of the file, add the following command:
 alias ccwc=(path_to_wc_tool.sh)
 ```
 After saving, restart the terminal session or do 
-```declarative
+``` declarative
 $ source ~/.bashrc
 ```
 to reflect the new changes.

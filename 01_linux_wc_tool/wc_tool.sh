@@ -9,17 +9,26 @@ command_line_option=$1 #option to set on what java command to run
 argument_correct=false
 cli_options=true
 
+# display help
+for argument in "$@"; do
+  if [ "$argument" == "--help" ]; then
+    cat ./help.txt
+    exit 1
+  fi
+
+done
+
 read_stdin_without_arguments() {
 #  if [ -p /dev/stdin ]; then
     input=$(cat)
-      echo "$input" | java "$CCWC" "--direct-input" "df"
+      echo "$input" | java "$CCWC" "--direct-input" "--no-options"
 #  fi
 
 }
 
 read_stdin_with_arguments() {
 
-    input=$(cat)
+    input="$(cat)"
     echo "$input" | java "$CCWC" "--direct-input" "$1"
 
 }
