@@ -8,7 +8,7 @@ Git clone using
 git clone repo
 ```
 ### Make bash script executable
-```cd``` to the ```/coding_challenges/01_linux_wc_tool``` and type the following command
+```cd``` to the ```/coding_challenges/01_linux_wc_tool``` directory and type the following command
 ```declarative
 $ chmod +x wc_tool.sh
 ```
@@ -35,3 +35,6 @@ After saving, restart the terminal session or do
 $ source ~/.bashrc
 ```
 to reflect the new changes.
+
+### Tool help
+Do ```ccwc --help``` to see the list of commands and how to use.
