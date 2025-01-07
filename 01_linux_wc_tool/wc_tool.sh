@@ -87,9 +87,9 @@ if [ $cli_options = true ]; then
     read_input
 
   else
-    java "$CCWC" "$command_line_option" "$path_to_file"
+    java "$CCWC" "--filepath" "$command_line_option" "$path_to_file"
   fi
 
 else
-    java "$CCWC" "--no-option" "$path_to_file"
+    java "$CCWC" "--filepath" "--no-option" "$path_to_file"
 fi

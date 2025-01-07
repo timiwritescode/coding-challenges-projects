@@ -1,7 +1,6 @@
 package wc_tool;
 
 import java.io.*;
-import java.lang.instrument.Instrumentation;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -10,15 +9,39 @@ import java.util.Arrays;
 import java.util.Collections;
 
 public class WcTool {
+    private final BufferedReader reader;
+    private String filePath = "";
+    private String input = "";
+    public WcTool(String inputFilepath) throws FileNotFoundException {
+        reader = new BufferedReader(new FileReader(inputFilepath));
+        filePath = inputFilepath;
+    }
 
-    public static long getByteCount(String filePath) {
+    public WcTool(InputStream stdin) throws IOException {
+        reader = new BufferedReader(new InputStreamReader(stdin));
+        StringBuilder inputBuilder = new StringBuilder();
+        String currentLine = reader.readLine();
+        String line;
+        while (currentLine != null) {
+            inputBuilder.append(currentLine).append("\n");
+
+            currentLine = reader.readLine();
+        }
+        String fileContent = inputBuilder.toString();
+
+        // remove the last appended \n because it is not in original file
+        input = fileContent.substring(0, fileContent.length()-1);
+
+
+    }
+
+    public long getByteCountWithFilePath() {
         File file = new File(filePath);
         return file.length();
     }
 
 
-    public static long getWordCount(String filePath) throws IOException {
-        BufferedReader reader = new BufferedReader(new FileReader(filePath));
+    public long getWordCountWithFilePath() throws IOException {
         String current_line = reader.readLine();
 
         long worcCount = 0;
@@ -33,7 +56,7 @@ public class WcTool {
         return worcCount;
     }
 
-    public static long getNumberOfLines(String filePath) throws IOException {
+    public long getNumberOfLinesWithFilepath() throws IOException {
         byte[] bytes = Files.readAllBytes(Path.of(filePath));
         long lineCount = 0;
         for (byte _byte : bytes ) {
@@ -44,7 +67,7 @@ public class WcTool {
 
         return lineCount;
     }
-    public static int getCharacterCount(String filePath) throws IOException {
+    public long getCharacterCountWithFilepath() throws IOException {
 
         BufferedReader reader = new BufferedReader(new FileReader(filePath));
         String current_line = reader.readLine();
@@ -64,11 +87,11 @@ public class WcTool {
     }
 
 
-    public static long getBytesCountFromStdin(String input) throws UnsupportedEncodingException {
-        return input.getBytes(StandardCharsets.UTF_8).length + WcTool.getLinesCountFromStdin(input); // + /n characters
+    public long getBytesCountFromStdin() throws UnsupportedEncodingException {
+        return input.getBytes(StandardCharsets.UTF_8).length + getLinesCountFromStdin(); // + /n characters
     }
 
-    public  static long getWordCountFromStdin(String input) throws IOException {
+    public long getWordCountFromStdin() throws IOException {
 //        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         BufferedReader reader = new BufferedReader(new StringReader(input));
         String currentLine = reader.readLine();
@@ -90,7 +113,7 @@ public class WcTool {
         return wordCount;
     }
 
-    public static long getCharacterCountFromStdin(String input) throws IOException {
+    public long getCharacterCountFromStdin() throws IOException {
         BufferedReader reader = new BufferedReader(new StringReader(input));
         String current_line = reader.readLine();
 //        char[] strArray = current_line.toCharArray();
@@ -112,7 +135,7 @@ public class WcTool {
         return charCount;
     }
 
-    public static long getLinesCountFromStdin(String input) {
+    public long getLinesCountFromStdin() {
         char[] charArray = input.toCharArray();
         long lines = 0;
         for (char character : charArray) {

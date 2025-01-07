@@ -1,76 +1,65 @@
 import wc_tool.WcTool;
 
 import java.io.*;
-import java.util.Arrays;
 
 public class Main {
     public static void main(String[] args) throws IOException {
-        String filePath = args[1];
-        File file = new File(filePath);
-
         switch (args[0]) {
             case "--direct-input" -> {
-                String input = Main.getString();
+                WcTool toolForStdin = new WcTool(System.in);
+
+
                 switch (args[1]) {
                     case "--no-options" -> {
 
+                        long wordCount = toolForStdin.getWordCountFromStdin();
 
-                        long wordCount = WcTool.getWordCountFromStdin(input);
-
-                        long linesCount = WcTool.getLinesCountFromStdin(input);
-                        long charCount = WcTool.getCharacterCountFromStdin(input);
+                        long linesCount = toolForStdin.getLinesCountFromStdin();
+                        long charCount = toolForStdin.getCharacterCountFromStdin();
                         System.out.println("Lines: " + linesCount + " Words: " + wordCount + " Characters: " + charCount);
                     }
                     case "-m" -> {
                         // characters count
-                        System.out.println("Character count: " + WcTool.getCharacterCountFromStdin(input));
+                        System.out.println("Character count: " + toolForStdin.getCharacterCountFromStdin());
                     }
                     case "-w" -> {
                         // words count
-                        System.out.println("Word Count:  " + WcTool.getWordCountFromStdin(input));
+                        System.out.println("Word Count:  " + toolForStdin.getWordCountFromStdin());
                     }
 
                     case "-l" -> {
                         // Lines count
-                        System.out.println("Lines count: " + WcTool.getLinesCountFromStdin(input));
+                        System.out.println("Lines count: " + toolForStdin.getLinesCountFromStdin());
                     }
 
                     case "-c" -> {
                         // Bytes count
-                        System.out.println("Bytes count: " + WcTool.getBytesCountFromStdin(input));
+                        System.out.println("Bytes count: " + toolForStdin.getBytesCountFromStdin());
                     }
                 }
             }
-            case "--no-option" -> {
-                long lineCount = WcTool.getNumberOfLines(filePath);
-                long characterCount = WcTool.getCharacterCount(filePath);
-                long wordCount = WcTool.getWordCount(filePath);
-                System.out.println("Lines:  " + lineCount + " Words: "+  wordCount + " Characters: " + characterCount + " file: " + file.getName());
+            case "--filepath" -> {
+                String filePath = args[2];
+                File file = new File(filePath);
+                WcTool tool = new WcTool(filePath);
+                switch (args[1]) {
+                    case "--no-option" -> {
+                        long lineCount = tool.getNumberOfLinesWithFilepath();
+                        long characterCount = tool.getCharacterCountWithFilepath();
+                        long wordCount = tool.getWordCountWithFilePath();
+                        System.out.println("Lines:  " + lineCount + " Words: "+  wordCount + " Characters: " + characterCount + " file: " + file.getName());
+                    }
+                    case "-c" ->
+                            System.out.println("Bytes: " + tool.getByteCountWithFilePath() + " " + file.getName());
+                    case "-m" -> System.out.println("Characters: " + tool.getCharacterCountWithFilepath() + " " + file.getName());
+                    case "-l" -> System.out.println("Lines: " + tool.getNumberOfLinesWithFilepath() + " " + file.getName());
+                    case "-w" -> System.out.println("Words: " + tool.getWordCountWithFilePath() + " " + file.getName());
+                }
+
             }
-            case "-c" ->
-                    System.out.println("Bytes: " + WcTool.getByteCount(filePath) + " " + file.getName());
-            case "-m" -> System.out.println("Characters: " + WcTool.getCharacterCount(filePath) + " " + file.getName());
-            case "-l" -> System.out.println("Lines: " + WcTool.getNumberOfLines(filePath) + " " + file.getName());
-            case "-w" -> System.out.println("Words: " + WcTool.getWordCount(filePath) + " " + file.getName());
-        }
+            }
+
 
     }
 
-    private static String getString() throws IOException {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        StringBuilder inputBuilder = new StringBuilder();
-        String currentLine = reader.readLine();
-        String line;
-        while (currentLine != null) {
-            inputBuilder.append(currentLine).append("\n");
-
-            currentLine = reader.readLine();
-        }
-        String input = inputBuilder.toString();
-
-        // remove the last appended \n because it is not in original file
-        input = input.substring(0, input.length()-1);
-
-        return input;
-    }
 }
