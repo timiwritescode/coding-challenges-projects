@@ -1,6 +1,8 @@
 import java.io.*;
 
 class Util {
+    private Util() {}
+
     public static String readFileContent(String filePath) {
         try {
 //            String filePath = "/home/alterego/personal_projects/coding-challenges-projects/02_json_parser/src/test.json";
