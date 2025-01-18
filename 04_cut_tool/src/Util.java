@@ -15,7 +15,7 @@ class Util {
 
         String content = stringBuilder.toString();
         // remove the last appended \n character
-
+//        System.out.println(content.substring(0, content.length()-1));
         return content.substring(0, content.length()-1);
 //
     }
