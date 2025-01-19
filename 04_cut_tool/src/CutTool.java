@@ -2,7 +2,6 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 
 enum Delimeter {
     TAB("\t"),
@@ -63,11 +62,46 @@ class CutTool {
 
     }
 
-    public String handleTheFieldOption(int columnNumber) {
+//    public String handleTheFieldOptionForSingleColumn(int columnNumber) {
+//        // assume it is a tab delimeter
+//        if (columnNumber <= 0) {
+//            System.out.println("Err: Only non-zero positive integers allowed");
+//            return "";
+//        }
+//
+//        String[] lines = fileContent.split("\n");
+//        ArrayList<String[]> sections = new ArrayList<String[]>();
+//        for (String line : lines) {
+////            System.out.println(line);
+//            sections.add(line.split(delimeter));
+//
+//        }
+//        try{
+//            StringBuilder columnValue = new StringBuilder();
+//            for (String[] section : sections) {
+//
+//                columnValue.append(section[columnNumber] += "\n");
+//            }
+//            return String.join("\n", columnValue.toString().split("\n"));
+//        } catch (ArrayIndexOutOfBoundsException e) {
+//            System.out.println("Not that much columns");
+//        }
+//
+//
+//
+//        return "";
+//    }
+
+    public String cut(ArrayList<Integer> columns) {
         // assume it is a tab delimeter
-        if (columnNumber <= 0) {
-            System.out.println("Err: Only non-zero positive integers allowed");
-            return "";
+//        if (columnNumber <= 0) {
+//            System.out.println("Err: Only non-zero positive integers allowed");
+//            return "";
+//        }
+        ArrayList<Integer> columnIndices = new ArrayList<>();
+
+        for (int column: columns) {
+            columnIndices.add(column-1);
         }
 
         String[] lines = fileContent.split("\n");
@@ -77,22 +111,18 @@ class CutTool {
             sections.add(line.split(delimeter));
 
         }
-        try{
-            StringBuilder columnValue = new StringBuilder();
-            for (String[] section : sections) {
-//                System.out.println(section.length);
-//                return section[columnNumber];
+        StringBuilder finalCut = new StringBuilder();
+        for (String[] section : sections) {
+            ArrayList<String> wordHolder = new ArrayList<>();
+            for (int columnIndex: columnIndices) {
+                wordHolder.add(section[columnIndex]);
 
-                columnValue.append(section[columnNumber] += "\n");
             }
-            return String.join("\n", columnValue.toString().split("\n"));
-        } catch (ArrayIndexOutOfBoundsException e) {
-            System.out.println("Not that much columns");
+            finalCut.append(String.join(delimeter, wordHolder)).append("\n");
         }
+        //
 
-
-
-        return "";
+        return String.join("\n", finalCut.toString().split("\n"));
     }
 
 }

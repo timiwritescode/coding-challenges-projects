@@ -1,7 +1,6 @@
 import picocli.CommandLine;
 
 import java.io.IOException;
-import java.sql.ClientInfoStatus;
 import java.util.ArrayList;
 
 
@@ -31,9 +30,12 @@ public class Main implements Runnable {
                 file = new CutTool(filePath);
             }
 
-            System.out.println(file.handleTheFieldOption(options.getFirst()));
+            System.out.println(file.cut(options));
+
+
         } catch (Exception e) {
             System.out.println(e.getMessage());
+
             System.exit(1);
 //            throw new RuntimeException(e);
         }
