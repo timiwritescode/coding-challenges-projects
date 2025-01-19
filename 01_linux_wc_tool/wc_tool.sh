@@ -21,7 +21,7 @@ done
 read_stdin_without_arguments() {
 #  if [ -p /dev/stdin ]; then
     input=$(cat)
-      echo "$input" | java "$CCWC" "--direct-input" "--no-options"
+      echo "$input" | java -jar "$CCWC" "--direct-input" "--no-options"
 #  fi
 
 }
@@ -29,7 +29,7 @@ read_stdin_without_arguments() {
 read_stdin_with_arguments() {
 
     input="$(cat)"
-    echo "$input" | java "$CCWC" "--direct-input" "$1"
+    echo "$input" | java -jar "$CCWC" "--direct-input" "$1"
 
 }
 
@@ -87,9 +87,9 @@ if [ $cli_options = true ]; then
     read_input
 
   else
-    java "$CCWC" "--filepath" "$command_line_option" "$path_to_file"
+    java -jar "$CCWC" "--filepath" "$command_line_option" "$path_to_file"
   fi
 
 else
-    java "$CCWC" "--filepath" "--no-option" "$path_to_file"
+    java -jar "$CCWC" "--filepath" "--no-option" "$path_to_file"
 fi

@@ -1,7 +1,4 @@
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 
 class Util {
     public static String readFileContentIntoString(String filepath) throws IOException {
@@ -18,5 +15,20 @@ class Util {
 //        System.out.println(content.substring(0, content.length()-1));
         return content.substring(0, content.length()-1);
 //
+    }
+
+    public static String readBufferIntoString(InputStream stdIn) throws IOException {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(stdIn));
+
+        String currentLine = reader.readLine();
+        StringBuilder outputString = new StringBuilder();
+        while(currentLine != null) {
+            outputString.append(currentLine);
+            outputString.append("\n");
+            currentLine = reader.readLine();
+        }
+
+        return String.join("\n", outputString.toString().split("\n")); // so as to remove the trailing line break
+
     }
 }

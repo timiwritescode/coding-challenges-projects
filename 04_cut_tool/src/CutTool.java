@@ -1,6 +1,7 @@
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 
 enum Delimeter {
@@ -60,6 +61,34 @@ class CutTool {
             throw new InvalidDelimeterException();
         };
 
+    }
+
+    CutTool(InputStream stdIn) throws IOException {
+        try {
+            fileContent = Util.readBufferIntoString(stdIn);
+            delimeter = "\t";
+//            System.out.println(fileContent);
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+            System.exit(1);
+        }
+
+    }
+
+    CutTool(InputStream stdIn, String delimeterInput) throws IOException {
+        try {
+            fileContent = Util.readBufferIntoString(stdIn);
+            if (Delimeter.isValidDelimeter(delimeterInput)) {
+                delimeter = delimeterInput;
+            } else {
+                throw new InvalidDelimeterException();
+            }
+        } catch(IOException e) {
+            System.out.println(e.getMessage());
+            System.exit(1);
+        } catch (InvalidDelimeterException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 //    public String handleTheFieldOptionForSingleColumn(int columnNumber) {
