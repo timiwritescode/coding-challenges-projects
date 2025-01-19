@@ -28,6 +28,7 @@ public class Main implements Runnable {
             CutTool file;
             switch (filePath) {
                 case null -> {
+
                     if (delimeter.isEmpty()) {
                         file = new CutTool(System.in);
                     } else {
@@ -43,21 +44,17 @@ public class Main implements Runnable {
                     }
                 }
             }
-//            if (!delimeter.isEmpty()) {
-//                System.out.println(delimeter);
-//                file = new CutTool(filePath, delimeter);
-//            } else {
-//                file = new CutTool(filePath);
-//            }
+
 
             System.out.println(file.cut(options));
 
 
         } catch (Exception e) {
+
             System.out.println(e.getMessage());
 
             System.exit(1);
-//            throw new RuntimeException(e);
+
         }
     }
 

@@ -1,3 +1,5 @@
+import exceptions.EmptyStandardInputException;
+
 import java.io.*;
 
 class Util {
@@ -17,10 +19,11 @@ class Util {
 //
     }
 
-    public static String readBufferIntoString(InputStream stdIn) throws IOException {
+    public static String readBufferIntoString(InputStream stdIn) throws IOException, EmptyStandardInputException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(stdIn));
 
         String currentLine = reader.readLine();
+
         StringBuilder outputString = new StringBuilder();
         while(currentLine != null) {
             outputString.append(currentLine);
@@ -28,7 +31,10 @@ class Util {
             currentLine = reader.readLine();
         }
 
-        return String.join("\n", outputString.toString().split("\n")); // so as to remove the trailing line break
-
+        String returnValue = String.join("\n", outputString.toString().split("\n")); // so as to remove the trailing line break
+        if (returnValue.isEmpty()) {
+            throw new EmptyStandardInputException();
+        }
+        return returnValue;
     }
 }

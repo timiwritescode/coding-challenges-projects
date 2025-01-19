@@ -1,3 +1,7 @@
+import exceptions.ColumnNotFoundException;
+import exceptions.EmptyStandardInputException;
+import exceptions.InvalidDelimeterException;
+
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -63,14 +67,14 @@ class CutTool {
 
     }
 
-    CutTool(InputStream stdIn) throws IOException {
+    CutTool(InputStream stdIn) throws IOException, EmptyStandardInputException {
         try {
+
             fileContent = Util.readBufferIntoString(stdIn);
             delimeter = "\t";
 //            System.out.println(fileContent);
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-            System.exit(1);
+        } catch (IOException | EmptyStandardInputException e) {
+           throw e;
         }
 
     }
@@ -86,7 +90,7 @@ class CutTool {
         } catch(IOException e) {
             System.out.println(e.getMessage());
             System.exit(1);
-        } catch (InvalidDelimeterException e) {
+        } catch (InvalidDelimeterException | EmptyStandardInputException e) {
             throw new RuntimeException(e);
         }
     }
@@ -127,31 +131,35 @@ class CutTool {
 //            System.out.println("Err: Only non-zero positive integers allowed");
 //            return "";
 //        }
-        ArrayList<Integer> columnIndices = new ArrayList<>();
+        try {
+            ArrayList<Integer> columnIndices = new ArrayList<>();
 
-        for (int column: columns) {
-            columnIndices.add(column-1);
-        }
+            for (int column: columns) {
+                columnIndices.add(column-1);
+            }
 
-        String[] lines = fileContent.split("\n");
-        ArrayList<String[]> sections = new ArrayList<String[]>();
-        for (String line : lines) {
+            String[] lines = fileContent.split("\n");
+            ArrayList<String[]> sections = new ArrayList<String[]>();
+            for (String line : lines) {
 //            System.out.println(line);
-            sections.add(line.split(delimeter));
-
-        }
-        StringBuilder finalCut = new StringBuilder();
-        for (String[] section : sections) {
-            ArrayList<String> wordHolder = new ArrayList<>();
-            for (int columnIndex: columnIndices) {
-                wordHolder.add(section[columnIndex]);
+                sections.add(line.split(delimeter));
 
             }
-            finalCut.append(String.join(delimeter, wordHolder)).append("\n");
-        }
-        //
+            StringBuilder finalCut = new StringBuilder();
+            for (String[] section : sections) {
+                ArrayList<String> wordHolder = new ArrayList<>();
+                for (int columnIndex: columnIndices) {
+                    wordHolder.add(section[columnIndex]);
 
-        return String.join("\n", finalCut.toString().split("\n"));
+                }
+                finalCut.append(String.join(delimeter, wordHolder)).append("\n");
+            }
+            //
+
+            return String.join("\n", finalCut.toString().split("\n"));
+        } catch (ArrayIndexOutOfBoundsException e) {
+         throw new ColumnNotFoundException();
+        }
     }
 
 }
