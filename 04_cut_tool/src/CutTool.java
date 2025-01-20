@@ -127,10 +127,7 @@ class CutTool {
 
     public String cut(ArrayList<Integer> columns) {
         // assume it is a tab delimeter
-//        if (columnNumber <= 0) {
-//            System.out.println("Err: Only non-zero positive integers allowed");
-//            return "";
-//        }
+
         try {
             ArrayList<Integer> columnIndices = new ArrayList<>();
 
