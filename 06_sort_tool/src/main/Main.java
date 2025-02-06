@@ -7,8 +7,16 @@ import java.io.IOException;
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
     public static void main(String[] args) throws IOException {
-        String filePath = args[0];
-        try{
+        String option = args[0];
+        String filePath = args[1];
+        if (option.equals("--no-option")) {
+            Main.handleTheNormalOption(filePath);
+        }
+
+    }
+
+    static void handleTheNormalOption(String filePath) {
+        try {
             String result = SortTool.sortFileContentInAscendingOrder(filePath);
             System.out.println(result);
         } catch (FileNotFoundException e) {
