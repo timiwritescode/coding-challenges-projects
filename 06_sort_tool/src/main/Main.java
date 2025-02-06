@@ -15,7 +15,7 @@ public class Main {
 
     }
 
-    static void handleTheNormalOption(String filePath) {
+    public static void handleTheNormalOption(String filePath) {
         try {
             String result = SortTool.sortFileContentInAscendingOrder(filePath);
             System.out.println(result);

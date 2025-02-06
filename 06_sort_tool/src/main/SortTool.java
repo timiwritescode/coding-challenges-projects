@@ -27,6 +27,7 @@ public class SortTool {
 
         List<String> wordList = SortTool.getWordListFromFileContent(filepath);
         wordList.sort(String::compareTo);
+//        System.out.println(wordList);
         return String.join("\n", wordList);
     }
 
