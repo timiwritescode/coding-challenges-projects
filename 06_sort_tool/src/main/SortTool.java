@@ -3,6 +3,8 @@ package main;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 public class SortTool {
 //    private final String filepath;
@@ -17,7 +19,7 @@ public class SortTool {
 ////        System.out.println(wordList);
 //    }
 //
-    private static List<String> getWordListFromFileContent(String filePath) throws IOException {
+    public static List<String> getWordListFromFileContent(String filePath) throws IOException {
         String fileContent = Util.readBufferFromFilePathIntoString(filePath);
 
         return new ArrayList<>(List.of(fileContent.split("\n")));
@@ -27,9 +29,13 @@ public class SortTool {
 
         List<String> wordList = SortTool.getWordListFromFileContent(filepath);
         wordList.sort(String::compareTo);
-//        System.out.println(wordList);
         return String.join("\n", wordList);
     }
 
+    public static String sortAndFilterUnique(String filepath) throws IOException {
+        List<String> wordList = SortTool.getWordListFromFileContent(filepath);
+        Set<String> wordSet =new TreeSet<>(wordList);
+        return String.join("\n", wordSet);
+    }
 
 }

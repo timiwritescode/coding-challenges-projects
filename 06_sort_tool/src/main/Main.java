@@ -2,6 +2,8 @@ package main;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.List;
+import java.util.Set;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
@@ -12,6 +14,8 @@ public class Main {
         if (option.equals("--no-option")) {
             Main.handleTheNormalOption(filePath);
         }
+        if (option.equals("-u")) System.out.println(SortTool.sortAndFilterUnique(filePath));
+
 
     }
 

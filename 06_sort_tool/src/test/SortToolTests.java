@@ -30,6 +30,17 @@ class SortToolTests {
         Assertions.assertThrows(IOException.class, () -> SortTool.sortFileContentInAscendingOrder("fake_file.txt"));
     }
 
+    @Test
+    public void testSortWithUniqueOption() throws IOException {
+        String content = "adjust\nADJUST\nAdjust\nADJUST\nAdjust\nadjust\nAdjust\nADJUST\nadjust";
+        File tempFile = createTempFileWithContent(content);
+
+        String result = SortTool.sortAndFilterUnique(tempFile.getAbsolutePath());
+        String expectedOutcome = "ADJUST\nAdjust\nadjust";
+
+        Assertions.assertEquals(expectedOutcome, result);
+    }
+
     private File createTempFileWithContent(String content) throws IOException {
         File tempFile = File.createTempFile("temp_file", "txt");
         tempFile.deleteOnExit();
