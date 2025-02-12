@@ -38,6 +38,25 @@ class MainTests {
         Assertions.assertThrows(IOException.class, () -> Main.handleTheNormalOption("non-existenst.txt"));
     }
 
+    @Test
+    void testHandleSortWithUniqueOption_FileNotFound() {
+        Assertions.assertThrows(IOException.class, () -> Main.main(new String[]{"-u", "nonexistent.txt"}));
+    }
+
+    @Test
+    void testHandleSortWithUniqueOption() throws IOException {
+        String fileContent = "judge\nGeorge\ngeorge\nJudge\ngeorge\ngeorge";
+        File tempFile = createTempFileWithContent(fileContent);
+        String mockFilepath = tempFile.getAbsolutePath();
+
+        Main.main(new String[]{"-u", mockFilepath});
+
+        String output = outputStreamCaptor.toString().trim();
+        String expectedOutcome = "George\nJudge\ngeorge\njudge";
+
+        Assertions.assertEquals(expectedOutcome, output);
+    }
+
     private File createTempFileWithContent(String content) throws IOException {
         File tempFile = File.createTempFile("temp_file", "txt");
         tempFile.deleteOnExit();
