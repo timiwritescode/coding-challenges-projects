@@ -1,13 +1,12 @@
 package protocol.exceptions;
 
-import exceptions.BaseException;
+import exceptions.HttpServerBaseException;
 
-public class ProtocolViolatedException extends BaseException {
-    int statusCode;
-    public ProtocolViolatedException(String message, int statusCode) {
-        super(message);
-        this.statusCode = statusCode;
+public class ProtocolViolatedException extends HttpServerBaseException {
+
+    public ProtocolViolatedException(String message) {
+        super(message, 400);
+
     }
-
 
 }

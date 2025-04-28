@@ -1,7 +1,9 @@
+import exceptions.HttpServerBaseException;
+import exceptions.MethodNotAllowedException;
 import protocol.HttpProtocol;
 import protocol.exceptions.ProtocolViolatedException;
-
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -17,18 +19,20 @@ public class RequestParser {
     private Map<String, String> headers = new HashMap<>();
     private int blankLineCount = 0;
 
-    void parseLine(String line) throws ProtocolViolatedException {
+    void parseLine(String line) throws HttpServerBaseException {
 
         if (line.isBlank() || line.isEmpty()) {
 
             if (blankLineCount > 1) {
-                throw new ProtocolViolatedException("Broken request message", 400);
+                throw new ProtocolViolatedException("Broken request message");
             }
             blankLineCount += 1;
+
 
         } else if (startLine.isEmpty()) {
             // then this is the first line of the request
             parseStartLine(line);
+
         } else {
             parseHeaderLine(line);
         }
@@ -36,16 +40,22 @@ public class RequestParser {
 
     }
 
-    private void parseStartLine(String startLine) throws ProtocolViolatedException {
+    private void parseStartLine(String startLine) throws HttpServerBaseException {
         if (!HttpProtocol.isStartLineFollowProtocol(startLine)) {
-            throw new ProtocolViolatedException("Broken request message", 400);
+            throw new ProtocolViolatedException("Broken request message");
         }
         this.startLine = startLine;
+        // check method
+        String method = getMethod();
+        if (!List.of(Methods.ALLOWED_METHODS).contains(method)) {
+            throw new MethodNotAllowedException();
+        };
+
     }
 
     private void parseHeaderLine(String line) throws ProtocolViolatedException {
         if (!HttpProtocol.isHeaderFollowProtocol(line)) {
-            throw new ProtocolViolatedException("Broken Request headers", 400);
+            throw new ProtocolViolatedException("Broken Request headers");
         }
 
         String headerKey = line.split(":")[0];
@@ -67,7 +77,7 @@ public class RequestParser {
     }
 
     String getMethod() {
-        return startLine.split(" ")[0];
+        return startLine.split(" ")[0].strip();
     }
 
     String getRoute() {
