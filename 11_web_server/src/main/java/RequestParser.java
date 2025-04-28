@@ -13,22 +13,39 @@ import java.util.Map;
  * whichever is used to read the request*/
 public class RequestParser {
 
-    String startLine = "";
-    Map<String, String> headers = new HashMap<>();
+    private String startLine = "";
+    private Map<String, String> headers = new HashMap<>();
+    private int blankLineCount = 0;
 
-    void parse(String line) throws ProtocolViolatedException {
+    void parseLine(String line) throws ProtocolViolatedException {
 
-        // check if line is more than one if it is, don't parse it
-        if (startLine.isEmpty()) {
-            // then this is the first line of the request
-            if (!HttpProtocol.isStartLineFollowProtocol(line)) {
-                throw new ProtocolViolatedException("Start line should follow...", 400);
+        if (line.isBlank() || line.isEmpty()) {
+
+            if (blankLineCount > 1) {
+                throw new ProtocolViolatedException("Broken request message", 400);
             }
-            startLine = line;
+            blankLineCount += 1;
+
+        } else if (startLine.isEmpty()) {
+            // then this is the first line of the request
+            parseStartLine(line);
+        } else {
+            parseHeaderLine(line);
         }
 
+
+    }
+
+    private void parseStartLine(String startLine) throws ProtocolViolatedException {
+        if (!HttpProtocol.isStartLineFollowProtocol(startLine)) {
+            throw new ProtocolViolatedException("Broken request message", 400);
+        }
+        this.startLine = startLine;
+    }
+
+    private void parseHeaderLine(String line) throws ProtocolViolatedException {
         if (!HttpProtocol.isHeaderFollowProtocol(line)) {
-            throw new ProtocolViolatedException("Header line should follow....", 400);
+            throw new ProtocolViolatedException("Broken Request headers", 400);
         }
 
         String headerKey = line.split(":")[0];
@@ -36,7 +53,6 @@ public class RequestParser {
 
         headers.put(headerKey, headerValue);
     }
-
 
     String getStartLine() {
         return startLine;
