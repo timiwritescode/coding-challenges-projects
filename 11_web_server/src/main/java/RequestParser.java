@@ -30,7 +30,7 @@ public class RequestParser {
 
 
         } else if (startLine.isEmpty()) {
-            // then this is the first line of the request
+
             parseStartLine(line);
 
         } else {
@@ -47,7 +47,7 @@ public class RequestParser {
         this.startLine = startLine;
         // check method
         String method = getMethod();
-        if (!List.of(Methods.ALLOWED_METHODS).contains(method)) {
+        if (!List.of(Constants.ALLOWED_METHODS).contains(method)) {
             throw new MethodNotAllowedException();
         };
 

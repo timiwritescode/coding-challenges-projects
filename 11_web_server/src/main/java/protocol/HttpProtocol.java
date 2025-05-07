@@ -45,7 +45,7 @@ public class HttpProtocol {
         String fieldValue = headerEntry.substring(colonIndex + 1).trim();
 
         if (!fieldName.matches("^[!#$%&'*+.^_`|~0-9A-Za-z-]+$")) {
-            System.out.println("Does not match");
+
             return false;
         };
 
