@@ -1,6 +1,9 @@
 import java.util.Date;
 
-public class Util {
+public final class Util {
+
+    private Util() {}
+
 
     public static String getDateTIme() {
         Date date = new Date();

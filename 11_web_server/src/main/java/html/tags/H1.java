@@ -1,0 +1,41 @@
+package html.tags;
+
+import html.Element;
+import html.structure.TextRenderable;
+import html.structure.containerElements.BodyTagChild;
+import html.structure.containerElements.ContainerElement;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+public class H1 extends ContainerElement implements BodyTagChild, TextRenderable {
+    private List<TextRenderable> children = new ArrayList<>();
+
+    public H1(String text) {
+        super("h1", false, false, "<h1>", "</h1>");
+        children.add(new TextElement(text));
+
+    }
+
+    @Override
+    public String render() {
+        List<Element> h1Children = children.stream().map(TextRenderable::getValue).toList();
+        return this.renderContainerElements(h1Children);
+    }
+
+    @Override
+    public void setText(String text) {
+        children.getFirst().setText(text);
+    }
+
+    @Override
+    public String getText() {
+        return children.getFirst().getText();
+    }
+
+    @Override
+    public Element getValue() {
+        return this;
+    }
+}
