@@ -2,21 +2,20 @@ package html.tags;
 
 import html.Element;
 import html.structure.TagElement;
-import html.structure.TextRenderable;
 import html.structure.containerElements.BodyTagChild;
 import html.structure.containerElements.ContainerElement;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ParaElement extends ContainerElement implements BodyTagChild {
+public class ParaTag extends ContainerElement implements BodyTagChild {
     List<BodyTagChild> children = new ArrayList<>();
 
-    public ParaElement() {
+    public ParaTag() {
         super("p", false, false, "<p>", "</p>");
     }
 
-    public ParaElement(BodyTagChild child) {
+    public ParaTag(BodyTagChild child) {
         super("p", false, false, "<p>", "</p>");
         children.add(child);
     }

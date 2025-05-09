@@ -10,11 +10,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class UnorderedList extends ContainerElement implements BodyTagChild {
+public class UnorderedListTag extends ContainerElement implements BodyTagChild {
     List<UnorderedListChild> children = new ArrayList<>();
 
 
-    public UnorderedList() {
+    public UnorderedListTag() {
         super(
                 "ul",
                 false,

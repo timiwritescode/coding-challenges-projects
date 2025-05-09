@@ -1,5 +1,8 @@
 package template;
 
-public class BaseTemplate {
+import html.tags.HeadTag;
 
+public abstract class BaseTemplate {
+
+    HeadTag head =  new HeadTag();
 }

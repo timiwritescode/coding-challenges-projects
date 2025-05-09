@@ -6,13 +6,12 @@ import html.structure.containerElements.BodyTagChild;
 import html.structure.containerElements.ContainerElement;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-public class H1 extends ContainerElement implements BodyTagChild, TextRenderable {
+public class H1Tag extends ContainerElement implements BodyTagChild, TextRenderable {
     private List<TextRenderable> children = new ArrayList<>();
 
-    public H1(String text) {
+    public H1Tag(String text) {
         super("h1", false, false, "<h1>", "</h1>");
         children.add(new TextElement(text));
 

@@ -2,16 +2,15 @@ package html.tags;
 
 import html.Element;
 import html.structure.RootElement;
-import html.structure.TagElement;
 import html.structure.containerElements.ContainerElement;
 
 import java.util.List;
 
-public class Html  extends ContainerElement implements RootElement {
-    private final Head  headTag;
-    private final Body bodyTag;
+public class HtmlTag extends ContainerElement implements RootElement {
+    private final HeadTag headTag;
+    private final BodyTag bodyTag;
 
-    public Html(Head headTag, Body bodyTag) {
+    public HtmlTag(HeadTag headTag, BodyTag bodyTag) {
         super(
                 "html",
                 false,

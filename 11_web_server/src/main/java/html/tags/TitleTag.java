@@ -5,16 +5,13 @@ import html.structure.containerElements.ContainerElement;
 import html.structure.containerElements.HeadTagChild;
 import html.structure.TextRenderable;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class Title
+public class TitleTag
         extends ContainerElement
         implements TextRenderable, HeadTagChild {
 
     TextElement textElement = new TextElement("");
 
-    public Title() {
+    public TitleTag() {
         super(
                 "title",
                 false,
@@ -24,7 +21,7 @@ public class Title
 
     }
 
-    public Title(String text) {
+    public TitleTag(String text) {
         super(
                 "title",
                 false,

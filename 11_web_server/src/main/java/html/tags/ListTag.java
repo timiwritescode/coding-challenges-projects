@@ -9,11 +9,11 @@ import html.structure.containerElements.UnorderedListChild;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ListElement extends ContainerElement implements UnorderedListChild {
+public class ListTag extends ContainerElement implements UnorderedListChild {
     List<BodyTagChild> children = new ArrayList<>();
     String text;
 
-    public ListElement() {
+    public ListTag() {
 
         super(
                 "li",
