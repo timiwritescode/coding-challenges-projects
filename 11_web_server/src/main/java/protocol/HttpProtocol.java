@@ -1,6 +1,8 @@
 package protocol;
 
 
+import java.util.List;
+
 /**
  * This class provides checker methods for different sections of http request
  * An HTTP request message is divided into three sections of:
@@ -17,6 +19,7 @@ public class HttpProtocol {
             return false;
         }
         String[] startLineParts = startLine.split(" ");
+
         if (startLineParts.length != 3) {
             return false;
         };

@@ -1,5 +1,8 @@
 public enum StatusCodes {
-    OK(200, "ok");
+    OK(200, "ok"),
+    NOT_FOUND(404, "not found"),
+    BAD_REQUEST(400, "bad request"),
+    SERVER_ERROR(500, "server error");
 
     private final int code;
     private final String description;

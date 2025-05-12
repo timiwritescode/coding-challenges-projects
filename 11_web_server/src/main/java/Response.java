@@ -34,19 +34,21 @@ public class Response {
         return this;
     }
 
+    Response body(String body) {
+        responseBody = body;
+        return this;
+    }
+
     void send() {
         // sends the message
         // check if status has beem set
         // should be even initialized
         String responseMessage = constructResponseMessage() + responseBody;
+
         clientPrintWriter.println(responseMessage);
 
     }
 
-    Response body(String body) {
-        responseBody = body;
-        return this;
-    }
 
     private String constructResponseMessage() {
 

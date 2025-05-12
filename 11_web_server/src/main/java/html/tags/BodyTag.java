@@ -1,17 +1,17 @@
 package html.tags;
 
 import html.Element;
-import html.structure.TagElement;
+
 import html.structure.containerElements.ContainerElement;
 import html.structure.containerElements.BodyTagChild;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Body extends ContainerElement {
+public class BodyTag extends ContainerElement {
     List<BodyTagChild> children = new ArrayList<>();
 
-    public Body() {
+    public BodyTag() {
         super("body", false, true, "<body>", "</body>");
 
     }

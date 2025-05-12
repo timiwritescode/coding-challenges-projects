@@ -19,7 +19,15 @@ public class RequestParser {
     private Map<String, String> headers = new HashMap<>();
     private int blankLineCount = 0;
 
-    void parseLine(String line) throws HttpServerBaseException {
+
+    public void parseRequestMessage(String requestMessage) throws ProtocolViolatedException, MethodNotAllowedException {
+        String[] reqMessageLines = requestMessage.split("\n");
+        for (String line: reqMessageLines) {
+            parseLine(line);
+        }
+    }
+
+    void parseLine(String line) throws ProtocolViolatedException, MethodNotAllowedException {
 
         if (line.isBlank() || line.isEmpty()) {
 
@@ -40,7 +48,7 @@ public class RequestParser {
 
     }
 
-    private void parseStartLine(String startLine) throws HttpServerBaseException {
+    private void parseStartLine(String startLine) throws ProtocolViolatedException, MethodNotAllowedException {
         if (!HttpProtocol.isStartLineFollowProtocol(startLine)) {
             throw new ProtocolViolatedException("Broken request message");
         }

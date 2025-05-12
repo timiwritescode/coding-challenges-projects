@@ -20,7 +20,7 @@ public class AnchorTag extends ContainerElement implements BodyTagChild {
     public AnchorTag(BodyTagChild child, String link) {
         super("p", false, false, "<a>", "</a>");
         children.add(child);
-        this.addAttribute("src", link);
+        this.addAttribute("href", link);
     }
 
 

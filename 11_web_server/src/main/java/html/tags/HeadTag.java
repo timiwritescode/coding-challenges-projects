@@ -19,6 +19,17 @@ public class HeadTag extends ContainerElement implements RootElement {
         children.add(child);
     }
 
+
+    public void setTitle(String text) {
+        TitleTag title = (TitleTag) children
+                            .stream()
+                            .filter(child -> (TitleTag) child.getValue() != null)
+                            .toList()
+                            .getFirst()
+                            .getValue();
+        title.setText(text);
+    }
+
     @Override
     public String render() {
         List<Element> headChildren = children.stream().map(HeadTagChild::getValue).toList();

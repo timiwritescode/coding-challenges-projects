@@ -1,6 +1,6 @@
 package exceptions;
 
-public class HttpServerBaseException extends Exception{
+public abstract class HttpServerBaseException extends Exception{
     private final int statusCode;
     protected HttpServerBaseException(String message, int statusCode) {
         super(message);

@@ -1,4 +1,4 @@
-package template;
+package templates;
 
 public class HtmlTemplate {
 
