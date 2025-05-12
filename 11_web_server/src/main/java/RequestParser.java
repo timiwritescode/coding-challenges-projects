@@ -93,6 +93,11 @@ public class RequestParser {
         return startLine.split(" ")[1];
     }
 
+
+    String getUserAgent() {
+        return headers.get("User-Agent");
+    }
+
     String getHttpVersion() {
         return startLine.split(" ")[2];
     }

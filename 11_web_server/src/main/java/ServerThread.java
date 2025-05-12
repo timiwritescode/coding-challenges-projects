@@ -36,9 +36,10 @@ public class ServerThread extends Thread {
                     if (currentLine.isEmpty()) break;
                 }
                 String requestMessage =  stringBuilder.toString();
+
                 Response response;
+            RequestParser reqParser = new RequestParser();
                 try{
-                    RequestParser reqParser = new RequestParser();
                     reqParser.parseRequestMessage(requestMessage);
 
                     String rootDir = System.getProperty("user.dir");
@@ -64,19 +65,19 @@ public class ServerThread extends Thread {
                                 .send();
                     }
 
-
-
+                    HttpRequestsLogger.info(reqParser.getMethod(), reqParser.getRoute(), 200, reqParser.getUserAgent());
                 } catch (HttpServerBaseException e) {
                     response = new Response(out, StatusCodes.BAD_REQUEST);
                     response.body(new BadRequestTemplate().constructMessage().renderTemplate()).send();
+                    HttpRequestsLogger.info(reqParser.getMethod(), reqParser.getRoute(), StatusCodes.BAD_REQUEST.getStatusCode(), reqParser.getUserAgent());
                 } catch (NoSuchFileException e) {
                     response = new Response(out, StatusCodes.NOT_FOUND);
                     response.body(new NotFound().constructMessage().renderTemplate()).send();
+                    HttpRequestsLogger.info(reqParser.getMethod(), reqParser.getRoute(), StatusCodes.NOT_FOUND.getStatusCode(), reqParser.getUserAgent());
                 } catch (Exception e) {
-                    System.out.println(e);
                     response = new Response(out, StatusCodes.SERVER_ERROR);
                     response.body(new ServerError().constructMessage().renderTemplate()).send();
-
+                    HttpRequestsLogger.info(reqParser.getMethod(), reqParser.getRoute(), StatusCodes.SERVER_ERROR.getStatusCode(), reqParser.getUserAgent());
                 }
         } catch (IOException e) {
             throw new RuntimeException(e);
