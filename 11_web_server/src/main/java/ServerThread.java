@@ -78,6 +78,7 @@ public class ServerThread extends Thread {
                     response = new Response(out, StatusCodes.SERVER_ERROR);
                     response.body(new ServerError().constructMessage().renderTemplate()).send();
                     HttpRequestsLogger.info(reqParser.getMethod(), reqParser.getRoute(), StatusCodes.SERVER_ERROR.getStatusCode(), reqParser.getUserAgent());
+                    throw e;
                 }
         } catch (IOException e) {
             throw new RuntimeException(e);
