@@ -17,6 +17,7 @@
     <module>webserver</module>
     <module>cuttool</module>
     <module>sorttool</module>
+    <module>curl</module>
   </modules>
   <dependencyManagement>
     <dependencies>
