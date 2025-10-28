@@ -46,6 +46,9 @@ public record Url (
         return new Builder();
     }
 
+    public String getPath() {
+        return path;
+    }
     public String getProtocol() {
         return protocol;
     }

@@ -1,10 +1,11 @@
 package com.codingchallenges.curl;
 
 
+import com.codingchallenges.curl.applications.http.HttpMessage;
+import com.codingchallenges.curl.applications.http.HttpServer;
 import com.codingchallenges.curl.exceptions.BaseException;
 
-import java.util.Arrays;
-import java.util.logging.Level;
+import java.net.URISyntaxException;
 import java.util.logging.Logger;
 
 /**
@@ -12,17 +13,24 @@ import java.util.logging.Logger;
  */
 public class App {
     private static final Logger logger = Logger.getLogger("curl");
-    public static void main(String[] args)  {
+    public static void main(String[] args) throws BaseException {
         try {
-            Url url = UrlParser.parse("http//localhost:2334/api/ad");
+            Url url = UrlParser.parse("http://eu.httpbin.org:80/get");
 
-            System.out.println(url.toString());
-        } catch (BaseException e) {
-            logger.setLevel(Level.SEVERE);
-            logger.severe(e.getMessage());
-            System.exit(1);
+            HttpMessage message = HttpMessage.builder()
+                    .setHost(url.getHost())
+                    .setPath(url.getPath())
+                    .setHeader("Host", url.getHost())
+                    .setHeader("Connection", "close")
+                    .build();
+
+
+            HttpServer server = new HttpServer(url.getHost(), 80);
+            System.out.println(server.sendMessage(message.toString()));
+
+        } catch (URISyntaxException e) {
+            throw new RuntimeException(e);
         }
-
 
     }
 }

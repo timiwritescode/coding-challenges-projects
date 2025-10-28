@@ -34,18 +34,13 @@ public class UrlParser {
     }
 
     private static String parseProtocol(String url) throws BaseException {
-
-        if(url.contains(":")) {
+        if (url.matches("^[a-z]+://.+$")) {
             String[] urlSections = url.split(":");
-            if (!urlSections[0].matches("^[a-zA-Z]+$")) {
-                throw new MalformedURLException();
-            }
             if (!protocols.contains(urlSections[0])) {
                 throw new ProtocolNotSupportedException(urlSections[0]);
             }
             return urlSections[0];
         }
-
         return "https";
     }
 
@@ -57,6 +52,7 @@ public class UrlParser {
                 String[] portSection = urlSections[2].split("/");
                 if (!portSection[0].matches("^[0-9]+$")) {
                     // check if the port number is for
+
                     throw new MalformedURLException();
                 }
 
@@ -106,7 +102,9 @@ public class UrlParser {
             host = url.split(":")[0];
         };
 
-
+        if (host.isEmpty()) {
+            throw new MalformedURLException();
+        }
         return host;
     }
 
