@@ -4,6 +4,8 @@ import java.io.*;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.Map;
 
 public class HttpServer {
     private final String host;
@@ -18,8 +20,10 @@ public class HttpServer {
         this.port = port;
     }
 
-    public String sendMessage(String message) {
-        StringBuilder appResponse = new StringBuilder();
+
+    public HttpServerResponse sendMessage(String message) {
+        StringBuilder headerBuilder = new StringBuilder();
+        StringBuilder responseBodyBuilder = new StringBuilder();
         try(
             Socket socket = new Socket(host, port);
                 ) {
@@ -33,16 +37,25 @@ public class HttpServer {
 
             BufferedReader reader = new BufferedReader(new InputStreamReader(in, StandardCharsets.ISO_8859_1));
             String line;
+            boolean isCurrentlyReadingHeader = true;
             while((line = reader.readLine()) != null) {
-                appResponse.append(line).append("\n");
+                if (line.isEmpty()) {
+                    isCurrentlyReadingHeader = false;
+                    headerBuilder.append("\n");
+                    continue;
+                }
+                if (isCurrentlyReadingHeader) {
+                    headerBuilder.append(line).append("\n");
+                } else {
+                    responseBodyBuilder.append(line).append("\n");
+                }
+                ;
             }
 
-        } catch (UnknownHostException e) {
-            throw new RuntimeException(e);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
-        return appResponse.toString();
+        return new HttpServerResponse(headerBuilder.toString(), responseBodyBuilder.toString());
     }
 }

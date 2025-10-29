@@ -27,6 +27,7 @@ public class HttpMessage {
         private String host;
         private String method = "GET";
         private String path = "/";
+        private String body = "";
         private final Map<String, String>  headers = new HashMap<>();
 
         public Builder setMethod(String method) {
@@ -36,6 +37,11 @@ public class HttpMessage {
 
         public Builder setVersion(String version) {
             this.httpVersion = version;
+            return this;
+        }
+
+        public Builder setBody(String body) {
+            this.body = body;
             return this;
         }
 
