@@ -8,6 +8,7 @@ public class HttpMessage {
     private String host;
     private String method;
     private  String path;
+    private String requestBody;
     private Map<String, String> headers;
 
     private HttpMessage(String httpVersion,
@@ -80,13 +81,26 @@ public class HttpMessage {
         return stringBuilder.toString();
     }
 
+    public void setBody(String body) {
+        // TODO: Parse the json body if it is json
+        requestBody = body;
+    }
+
+    public void setHeaders(String key, String value) {
+        this.headers.put(key, value);
+    }
+
     @Override
     public String toString() {
         if (host.isEmpty()) {
             throw new RuntimeException("Host cannot be empty");
         }
-        return method + " " + path + " " + "HTTP/" + httpVersion + "\r\n" +
-                        stringifyHeaders() +
-                        "\r\n";
+        String message = method + " " + path + " " + "HTTP/" + httpVersion + "\r\n" +
+                stringifyHeaders() +
+                "\r\n";
+        if (!requestBody.isEmpty()) {
+            message += requestBody;
+        }
+        return message;
     }
 }

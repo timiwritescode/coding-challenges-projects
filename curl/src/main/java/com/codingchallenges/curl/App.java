@@ -40,8 +40,13 @@ public class App implements Runnable{
     @Override
     public void run() {
         try {
-            System.out.println(method);
+
             Url url = UrlParser.parse(inputUrl);
+
+            // if body use post by default except explicitly stated
+            if (!requestBody.isEmpty() && method.isEmpty()) {
+                method = "POST";
+            }
 
             HttpMessage message = HttpMessage.builder()
                     .setHost(url.getHost())
@@ -52,6 +57,19 @@ public class App implements Runnable{
                     .setHeader("Connection", "close")
                     .build();
 
+            if (!headers.isEmpty()) {
+                for (String header: headers) {
+                    String[] keyValuePair = header.split(":");
+                    if (keyValuePair.length != 2) {
+                        throw new RuntimeException("Invalid header format");
+                    }
+                    message.setHeaders(keyValuePair[0], keyValuePair[1]);
+                }
+            }
+
+            if (!requestBody.isEmpty()) {
+                message.setBody(requestBody);
+            }
 
             HttpServer server = new HttpServer(url.getHost(), 80);
             HttpServerResponse response = server.sendMessage(message.toString());
@@ -62,11 +80,12 @@ public class App implements Runnable{
                 for (String line : messageLines) {
                     consoleResponseBuilder.append("> ").append(line).append("\n");
                 }
+                consoleResponseBuilder.append("> ").append("\n");
                 String[] headerLines = response.responseHeaders().split("\n");
                 for (String line : headerLines) {
                     consoleResponseBuilder.append("< ").append(line).append("\n");
                 }
-                consoleResponseBuilder.append("< ").append("\n");
+                consoleResponseBuilder.append("< ").append("\n").append("\n");
 
             }
 
@@ -78,4 +97,6 @@ public class App implements Runnable{
             throw new RuntimeException(e);
         }
     }
+
+
 }
